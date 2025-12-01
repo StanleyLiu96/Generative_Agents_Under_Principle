@@ -171,7 +171,26 @@ def perceive(persona, maze):
                       persona.scratch.chat)
         chat_node_ids = [chat_node.node_id]
 
-      # Finally, we add the current event to the agent's memory. 
+      # Finally, we add the current event to the agent's memory.
+      # Verbose note: alongside the legacy associative memory insert, we also
+      # inject an affective trace so downstream prompts can reason about the
+      # agent's emotional history and the frequency of this event. We seed the
+      # affective trace with a single emotion (interest) derived from the
+      # poignancy score; richer emotion detection can later overwrite/merge.
+      # NEW: ask GPT to supply up to 5 emotions + scores (0-100) for this event.
+      # If parsing fails, we fall back to a single "interest" tag derived from
+      # poignancy so we never block perception.
+      try: 
+        event_emotions = run_gpt_prompt_affective_emotions(persona, desc_embedding_in)[0]
+      except Exception: 
+        # try: 
+        #   interest_score = int(event_poignancy * 10)
+        # except Exception: 
+        #   interest_score = 0
+        # event_emotions = {"interest": max(0, min(interest_score, 100))}
+        break
+      persona.affective_memory.store_event(event_embedding, desc, event_emotions)
+
       ret_events += [persona.a_mem.add_event(persona.scratch.curr_time, None,
                            s, p, o, desc, keywords, event_poignancy, 
                            event_embedding_pair, chat_node_ids)]
@@ -179,19 +198,3 @@ def perceive(persona, maze):
       persona.scratch.importance_ele_n += 1
 
   return ret_events
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-

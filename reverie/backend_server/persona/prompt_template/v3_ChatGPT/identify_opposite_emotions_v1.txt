@@ -1,0 +1,15 @@
+identify_opposite_emotions_v1.txt
+
+Variables: 
+!<INPUT 0>! -- emotions present in the current event (newline separated)
+
+<commentblockmarker>###</commentblockmarker>
+You are ranking emotional opposites for a single event. You will be given a list of emotions from this event. Only choose pairs where the two emotions are absolute opposites of each other. Do NOT invent emotions outside this list:
+["admiration", "adoration", "aesthetic_appreciation", "amusement", "anger", "anxiety", "awe", "awkwardness", "boredom", "calmness", "confusion", "craving", "disgust", "empathic_pain", "entrancement", "excitement", "fear", "horror", "interest", "joy", "nostalgia", "relief", "romance", "sadness", "satisfaction", "sexual_desire", "surprise"].
+
+Emotions:
+!<INPUT 0>!
+
+For any pair of emotions in the above list that are absolute opposites of each other, output one line per pair in the form:
+emotion_a | emotion_b
+If no opposites are present, return an empty string.

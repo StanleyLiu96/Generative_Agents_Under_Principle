@@ -202,6 +202,12 @@ def replay_persona_state(request, sim_code, step, persona_name):
   with open(memory + "/associative_memory/nodes.json") as json_file:  
     associative = json.load(json_file)
 
+  affective_memory = dict()
+  f_affective_memory = f"{memory}/affective_memory.json"
+  if check_if_file_exists(f_affective_memory):
+    with open(f_affective_memory) as json_file:
+      affective_memory = json.load(json_file)
+
   a_mem_event = []
   a_mem_chat = []
   a_mem_thought = []
@@ -227,7 +233,8 @@ def replay_persona_state(request, sim_code, step, persona_name):
              "spatial": spatial,
              "a_mem_event": a_mem_event,
              "a_mem_chat": a_mem_chat,
-             "a_mem_thought": a_mem_thought}
+             "a_mem_thought": a_mem_thought,
+             "affective_memory": affective_memory}
   template = "persona_state/persona_state.html"
   return render(request, template, context)
 
@@ -312,12 +319,3 @@ def path_tester_update(request):
     outfile.write(json.dumps(camera, indent=2))
 
   return HttpResponse("received")
-
-
-
-
-
-
-
-
-

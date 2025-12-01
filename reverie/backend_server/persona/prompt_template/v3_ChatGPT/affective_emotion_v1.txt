@@ -1,0 +1,24 @@
+affective_emotion_v1.txt
+
+Variables:
+!<INPUT 0>! -- persona name
+!<INPUT 1>! -- persona ISS (identity/situation summary)
+!<INPUT 2>! -- event description (what just happened)
+
+<commentblockmarker>###</commentblockmarker>
+You are tagging the emotions a person feels about a single event.
+
+Rules:
+- Only use emotions from this list: ["admiration", "adoration", "aesthetic_appreciation", "amusement", "anger", "anxiety", "awe", "awkwardness", "boredom", "calmness", "confusion", "craving", "disgust", "empathic_pain", "entrancement", "excitement", "fear", "horror", "interest", "joy", "nostalgia", "relief", "romance", "sadness", "satisfaction", "sexual_desire", "surprise"].
+- Choose at most 5 emotions.
+- Assign each chosen emotion an integer score from 0 to 100.
+- Output must be a single Python-style dictionary literal on one line, nothing else. Example: {"joy": 15, "admiration": 33, "amusement": 40}
+
+Context about the person:
+!<INPUT 0>!
+!<INPUT 1>!
+
+Event:
+!<INPUT 2>!
+
+Now output the dictionary.

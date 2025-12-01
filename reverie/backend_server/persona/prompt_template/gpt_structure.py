@@ -207,21 +207,21 @@ def GPT_request(prompt, gpt_parameter):
     a str of GPT-3's response. 
   """
   temp_sleep()
-  try: 
-    response = openai.Completion.create(
-                model=gpt_parameter["engine"],
-                prompt=prompt,
-                temperature=gpt_parameter["temperature"],
-                max_tokens=gpt_parameter["max_tokens"],
-                top_p=gpt_parameter["top_p"],
-                frequency_penalty=gpt_parameter["frequency_penalty"],
-                presence_penalty=gpt_parameter["presence_penalty"],
-                stream=gpt_parameter["stream"],
-                stop=gpt_parameter["stop"],)
-    return response.choices[0].text
-  except: 
-    print ("TOKEN LIMIT EXCEEDED")
-    return "TOKEN LIMIT EXCEEDED"
+  # try: 
+  response = openai.Completion.create(
+              model=gpt_parameter["model"],
+              prompt=prompt,
+              temperature=gpt_parameter["temperature"],
+              max_tokens=gpt_parameter["max_tokens"],
+              top_p=gpt_parameter["top_p"],
+              frequency_penalty=gpt_parameter["frequency_penalty"],
+              presence_penalty=gpt_parameter["presence_penalty"],
+              stream=gpt_parameter["stream"],
+              stop=gpt_parameter["stop"],)
+  return response.choices[0].text
+  # except: 
+  #   print ("TOKEN LIMIT EXCEEDED")
+  #   return "TOKEN LIMIT EXCEEDED"
 
 
 def generate_prompt(curr_input, prompt_lib_file): 
@@ -282,7 +282,7 @@ def get_embedding(text, model="text-embedding-ada-002"):
 
 
 if __name__ == '__main__':
-  gpt_parameter = {"engine": "text-davinci-003", "max_tokens": 50, 
+  gpt_parameter = {"model": "gpt-3.5-turbo-instruct", "max_tokens": 50, 
                    "temperature": 0, "top_p": 1, "stream": False,
                    "frequency_penalty": 0, "presence_penalty": 0, 
                    "stop": ['"']}
@@ -309,23 +309,3 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

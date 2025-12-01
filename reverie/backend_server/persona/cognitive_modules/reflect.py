@@ -31,6 +31,9 @@ def generate_focal_points(persona, n=3):
   statements = ""
   for node in nodes[-1*persona.scratch.importance_ele_n:]: 
     statements += node.embedding_key + "\n"
+  # Verbose: add affective-memory highlights so the LLM can bias focal points
+  # toward emotionally charged experiences.
+  statements += f"\nAffective memory highlights:\n{persona.get_affective_prompt_context()}"
 
   return run_gpt_prompt_focal_pt(persona, statements, n)[0]
 
@@ -242,30 +245,3 @@ def reflect(persona):
       persona.a_mem.add_thought(created, expiration, s, p, o, 
                                 memo_thought, keywords, thought_poignancy, 
                                 thought_embedding_pair, evidence)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

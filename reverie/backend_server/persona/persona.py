@@ -18,6 +18,7 @@ from global_methods import *
 
 from persona.memory_structures.spatial_memory import *
 from persona.memory_structures.associative_memory import *
+from persona.memory_structures.affective_memory import AffectiveMemory
 from persona.memory_structures.scratch import *
 
 from persona.cognitive_modules.perceive import *
@@ -43,6 +44,9 @@ class Persona:
     # <s_mem> is the persona's associative memory. 
     f_a_mem_saved = f"{folder_mem_saved}/bootstrap_memory/associative_memory"
     self.a_mem = AssociativeMemory(f_a_mem_saved)
+    # <affective_memory> captures events, emotions, and occurrence counts. 
+    f_aff_mem_saved = f"{folder_mem_saved}/bootstrap_memory/affective_memory.json"
+    self.affective_memory = AffectiveMemory(f_aff_mem_saved)
     # <scratch> is the persona's scratch (short term memory) space. 
     scratch_saved = f"{folder_mem_saved}/bootstrap_memory/scratch.json"
     self.scratch = Scratch(scratch_saved)
@@ -70,12 +74,23 @@ class Persona:
     # e.g., event,2022-10-23 00:00:00,,Isabella Rodriguez,is,idle
     f_a_mem = f"{save_folder}/associative_memory"
     self.a_mem.save(f_a_mem)
+    # Affective memory records emotion-enriched episodic traces.
+    f_aff_mem = f"{save_folder}/affective_memory.json"
+    self.affective_memory.save(f_aff_mem)
 
     # Scratch contains non-permanent data associated with the persona. When 
     # it is saved, it takes a json form. When we load it, we move the values
     # to Python variables. 
     f_scratch = f"{save_folder}/scratch.json"
     self.scratch.save(f_scratch)
+
+
+  def get_affective_prompt_context(self, max_items=5):
+    """
+    Provide a reusable affective-memory summary string so prompts can
+    condition on salient emotional experiences without reformatting each time.
+    """
+    return self.affective_memory.format_for_prompt(max_items=max_items)
 
 
   def perceive(self, maze):
@@ -233,40 +248,3 @@ class Persona:
 
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
